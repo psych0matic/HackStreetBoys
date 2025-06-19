@@ -1,12 +1,12 @@
-class Agent {
-  final String agentId;
+class Advisor {
+  final String advisorId;
   final String firstName;
   final String lastName;
   final String email;
   final String phoneNumber;
 
-  Agent({
-    required this.agentId,
+  Advisor({
+    required this.advisorId,
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -15,7 +15,7 @@ class Agent {
 
   Map<String, dynamic> toMap() {
     return {
-      'agentId': agentId,
+      'agentId': advisorId,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
@@ -23,9 +23,9 @@ class Agent {
     };
   }
 
-  factory Agent.fromMap(Map<String, dynamic> map) {
-    return Agent(
-      agentId: map['agentId'] ?? '',
+  factory Advisor.fromMap(Map<String, dynamic> map) {
+    return Advisor(
+      advisorId: map['agentId'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
       email: map['email'] ?? '',
@@ -35,6 +35,6 @@ class Agent {
 
   @override
   String toString() {
-    return 'Agent(agentId: $agentId, firstName: $firstName, lastName: $lastName, email: $email, phoneNumber: $phoneNumber)';
+    return 'Agent(agentId: $advisorId, firstName: $firstName, lastName: $lastName, email: $email, phoneNumber: $phoneNumber)';
   }
 }

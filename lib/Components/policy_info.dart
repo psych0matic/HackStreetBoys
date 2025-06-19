@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:insurview360/Api/policy_api.dart';
+import 'package:insurview360/Models/policy.dart';
 
 class PolicyInfo extends StatefulWidget {
   const PolicyInfo({super.key});
@@ -38,6 +40,26 @@ class _PolicyInfoState extends State<PolicyInfo> {
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
+              ),
+              trailing: FilledButton(
+                child: Text("Save"),
+                onPressed: () async {
+                  Policy policy = Policy(
+                    policyId: conPolicyId.text,
+                    policyNumber: conPolicyNumber.text,
+                    policyType: conPolicyType.text,
+                    startDate:
+                        DateTime.tryParse(conStartDate.text) ?? DateTime.now(),
+                    endDate:
+                        DateTime.tryParse(conEndDate.text) ?? DateTime.now(),
+                    status: PolicyStatus.values.firstWhere(
+                      (e) => e.toString().split('.').last == conStatus.text,
+                      orElse: () => PolicyStatus.values.first,
+                    ),
+                  );
+
+                  await PolicyApi().updatePolicy(policy);
+                },
               ),
             ),
             SizedBox(height: 20),

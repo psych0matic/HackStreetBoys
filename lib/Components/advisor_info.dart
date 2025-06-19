@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:insurview360/Api/advisor_api.dart';
+import 'package:insurview360/Models/advisor.dart';
 
 class AdvisorInfo extends StatefulWidget {
   const AdvisorInfo({super.key});
@@ -37,6 +39,20 @@ class _AdvisorInfoState extends State<AdvisorInfo> {
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
+              ),
+              trailing: FilledButton(
+                child: Text("Save"),
+                onPressed: () async {
+                  Advisor advisor = Advisor(
+                    advisorId: conAgentId.text,
+                    firstName: conFirstName.text,
+                    lastName: conLastName.text,
+                    email: conEmail.text,
+                    phoneNumber: conPhone.text,
+                  );
+
+                  await AdvisorApi().updateAdvisor(advisor);
+                },
               ),
             ),
             SizedBox(height: 20),

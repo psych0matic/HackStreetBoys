@@ -13,7 +13,7 @@ class Payment {
     required this.amount,
   });
 
-  factory Payment.fromJson(Map<String, dynamic> json) {
+  factory Payment.fromMap(Map<String, dynamic> json) {
     return Payment(
       paymentId: json['paymentId'] as String,
       policyId: json['policyId'] as String,
@@ -22,7 +22,7 @@ class Payment {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'paymentId': paymentId,
       'policyId': policyId,

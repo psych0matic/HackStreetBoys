@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:insurview360/Api/customer_api.dart';
+import 'package:insurview360/Models/customer.dart';
 
 class CustomerInfo extends StatefulWidget {
   const CustomerInfo({super.key});
@@ -37,6 +39,20 @@ class _CustomerInfoState extends State<CustomerInfo> {
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
+              ),
+              trailing: FilledButton(
+                child: Text("Save"),
+                onPressed: () async {
+                  Customer customer = Customer(
+                    customerId: conCustomerId.text,
+                    firstName: conFirstName.text,
+                    lastName: conLastName.text,
+                    email: conEmail.text,
+                    phoneNumber: conPhone.text,
+                  );
+
+                  await CustomerApi().updateCustomer(customer);
+                },
               ),
             ),
             SizedBox(height: 20),
