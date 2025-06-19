@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insurview360/Components/advisor_info.dart';
 import 'package:insurview360/Components/claims_history.dart';
 import 'package:insurview360/Components/customer_info.dart';
+import 'package:insurview360/Components/payment_history.dart';
 import 'package:insurview360/Components/policy_info.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -16,24 +17,27 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: SizedBox(
-          width: 700,
-          child: Column(
-            children: [
-              Card(
-                child: ListTile(
-                  title: const Text('Customer Policy Dashboard'),
-                  subtitle: const Text(
-                    'Complete overview of policy information and related details ',
+        child: Center(
+          child: SizedBox(
+            width: 700,
+            child: Column(
+              children: [
+                Card(
+                  child: ListTile(
+                    title: const Text('Customer Policy Dashboard'),
+                    subtitle: const Text(
+                      'Complete overview of policy information and related details ',
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              CustomerInfo(),
-              PolicyInfo(),
-              AdvisorInfo(),
-              ClaimsHistory(),
-            ],
+                SizedBox(height: 20),
+                CustomerInfo(),
+                PolicyInfo(),
+                AdvisorInfo(),
+                ClaimsHistory(),
+                PaymentHistory(),
+              ],
+            ),
           ),
         ),
       ),

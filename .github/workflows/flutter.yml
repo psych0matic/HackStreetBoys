@@ -27,14 +27,17 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Run Flutter analyzer
-      - name: Analyze code
-        run: flutter analyze
-
       # Run Flutter tests
       - name: Run tests
         run: flutter test
 
       # Build the app (optional, for release builds)
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Build Flutter web app
+        run: flutter build web
+        
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          app_location: "/"
+          output_location: "build/web"

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
 import 'package:insurview360/Models/payment.dart';
-import '../Models/claim.dart';
 
 class PaymentHistory extends StatefulWidget {
   const PaymentHistory({super.key});
@@ -34,7 +33,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
           Row(
             children: [
               Container(color: Colors.purpleAccent, width: 50, height: 50),
-              Expanded(child: Text("Claims History")),
+              Expanded(child: Text("Payment History")),
             ],
           ),
           DataTable(
@@ -44,17 +43,16 @@ class _PaymentHistoryState extends State<PaymentHistory> {
               DataColumn(label: Text('Payment Date')),
               DataColumn(label: Text('Amount')),
             ],
-            rows:
-                payments.map((payment) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(payment.paymentId)),
-                      DataCell(Text(payment.policyId)),
-                      DataCell(Text(payment.paymentDate.toIso8601String())),
-                      DataCell(Text(payment.amount.toString())),
-                    ],
-                  );
-                }).toList(),
+            rows: payments.map((payment) {
+              return DataRow(
+                cells: [
+                  DataCell(Text(payment.paymentId)),
+                  DataCell(Text(payment.policyId)),
+                  DataCell(Text(payment.paymentDate.toIso8601String())),
+                  DataCell(Text(payment.amount.toString())),
+                ],
+              );
+            }).toList(),
           ),
         ],
       ),
