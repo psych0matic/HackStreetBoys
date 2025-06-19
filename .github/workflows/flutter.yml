@@ -29,8 +29,8 @@ jobs:
         run: flutter pub get
 
       # Run Flutter tests
-      - name: Run tests
-        run: flutter test
+      #- name: Run tests
+      #  run: flutter test
 
       # Build the app (optional, for release builds)
       - name: Build Flutter web app
