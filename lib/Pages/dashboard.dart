@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:insurview360/Components/advisor_info.dart';
 import 'package:insurview360/Components/claims_history.dart';
 import 'package:insurview360/Components/customer_info.dart';
@@ -19,14 +20,23 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: 700,
+            width: 900,
             child: Column(
               children: [
                 Card(
-                  child: ListTile(
-                    title: const Text('Customer Policy Dashboard'),
-                    subtitle: const Text(
-                      'Complete overview of policy information and related details ',
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ListTile(
+                      title: Text(
+                        'Customer Policy Dashboard',
+                        style: GoogleFonts.roboto(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Complete overview of policy information and related details ',
+                      ),
                     ),
                   ),
                 ),

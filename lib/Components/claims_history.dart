@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../Models/claim.dart';
 
 class ClaimsHistory extends StatefulWidget {
@@ -10,6 +12,8 @@ class ClaimsHistory extends StatefulWidget {
 }
 
 class _ClaimsHistoryState extends State<ClaimsHistory> {
+  final formatter = NumberFormat.currency(symbol: 'R', decimalDigits: 2);
+
   final List<Claim> claims = [
     Claim(
       claimId: 'C123',
@@ -37,36 +41,69 @@ class _ClaimsHistoryState extends State<ClaimsHistory> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(color: Colors.purpleAccent, width: 50, height: 50),
-              Expanded(child: Text("Claims History")),
-            ],
-          ),
-          DataTable(
-            columns: const [
-              DataColumn(label: Text('Claim ID')),
-              DataColumn(label: Text('Policy ID')),
-              DataColumn(label: Text('Claim Date')),
-              DataColumn(label: Text('Status')),
-              DataColumn(label: Text('Amount')),
-            ],
-            rows:
-                claims.map((claim) {
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              title: Text(
+                "Claims History",
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 700,
+              child: DataTable(
+                columns: const [
+                  DataColumn(
+                    label: Text('Claim ID'),
+                    columnWidth: FlexColumnWidth(0.2),
+                  ),
+                  DataColumn(
+                    label: Text('Policy ID'),
+                    columnWidth: FlexColumnWidth(0.2),
+                  ),
+                  DataColumn(
+                    label: Text('Claim Date'),
+                    columnWidth: FlexColumnWidth(0.2),
+                  ),
+                  DataColumn(
+                    label: Text('Status'),
+                    columnWidth: FlexColumnWidth(0.2),
+                  ),
+                  DataColumn(
+                    label: Text('Amount'),
+                    columnWidth: FlexColumnWidth(0.2),
+                  ),
+                ],
+                rows: claims.map((claim) {
                   return DataRow(
                     cells: [
                       DataCell(Text(claim.claimId)),
                       DataCell(Text(claim.policyId)),
-                      DataCell(Text(claim.claimDate.toIso8601String())),
+                      DataCell(
+                        Text(DateFormat("dd MMM y").format(claim.claimDate)),
+                      ),
                       DataCell(Text(claim.status.toString().split('.').last)),
-                      DataCell(Text(claim.amount.toString())),
+                      DataCell(Text(formatter.format(claim.amount.toDouble()))),
                     ],
                   );
                 }).toList(),
-          ),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

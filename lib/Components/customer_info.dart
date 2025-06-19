@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomerInfo extends StatefulWidget {
   const CustomerInfo({super.key});
@@ -17,56 +18,113 @@ class _CustomerInfoState extends State<CustomerInfo> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(color: Colors.blueAccent, width: 50, height: 50),
-              Expanded(child: Text("Customer Information")),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: conCustomerId,
-                  decoration: InputDecoration(labelText: 'Customer ID'),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  controller: conFirstName,
-                  decoration: InputDecoration(labelText: 'First Name'),
+              title: Text(
+                "Customer Information",
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  controller: conLastName,
-                  decoration: InputDecoration(labelText: 'Last Name'),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conCustomerId,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                      labelText: 'Customer ID',
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: conEmail,
-                  decoration: InputDecoration(labelText: 'Email'),
+                SizedBox(width: 10),
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conFirstName,
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  controller: conPhone,
-                  decoration: InputDecoration(labelText: 'Phone Number'),
+                SizedBox(width: 10),
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conLastName,
+                    decoration: InputDecoration(
+                      labelText: 'Last Name',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            SizedBox(height: 20),
+
+            Row(
+              children: [
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conEmail,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conPhone,
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

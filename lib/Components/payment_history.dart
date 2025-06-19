@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:insurview360/Models/payment.dart';
+import 'package:intl/intl.dart';
 
 class PaymentHistory extends StatefulWidget {
   const PaymentHistory({super.key});
@@ -10,6 +12,8 @@ class PaymentHistory extends StatefulWidget {
 }
 
 class _PaymentHistoryState extends State<PaymentHistory> {
+  final formatter = NumberFormat.currency(symbol: 'R', decimalDigits: 2);
+
   final List<Payment> payments = [
     Payment(
       paymentId: 'P001',
@@ -28,33 +32,61 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(color: Colors.purpleAccent, width: 50, height: 50),
-              Expanded(child: Text("Payment History")),
-            ],
-          ),
-          DataTable(
-            columns: const [
-              DataColumn(label: Text('Payment ID')),
-              DataColumn(label: Text('Policy ID')),
-              DataColumn(label: Text('Payment Date')),
-              DataColumn(label: Text('Amount')),
-            ],
-            rows: payments.map((payment) {
-              return DataRow(
-                cells: [
-                  DataCell(Text(payment.paymentId)),
-                  DataCell(Text(payment.policyId)),
-                  DataCell(Text(payment.paymentDate.toIso8601String())),
-                  DataCell(Text(payment.amount.toString())),
-                ],
-              );
-            }).toList(),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurpleAccent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              title: Text(
+                "Payment History",
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            DataTable(
+              columns: const [
+                DataColumn(
+                  label: Text('Payment ID'),
+                  columnWidth: FlexColumnWidth(0.25),
+                ),
+                DataColumn(
+                  label: Text('Policy ID'),
+                  columnWidth: FlexColumnWidth(0.25),
+                ),
+                DataColumn(
+                  label: Text('Payment Date'),
+                  columnWidth: FlexColumnWidth(0.25),
+                ),
+                DataColumn(
+                  label: Text('Amount'),
+                  columnWidth: FlexColumnWidth(0.25),
+                ),
+              ],
+              rows: payments.map((payment) {
+                return DataRow(
+                  cells: [
+                    DataCell(Text(payment.paymentId)),
+                    DataCell(Text(payment.policyId)),
+                    DataCell(
+                      Text(DateFormat("dd MMM y").format(payment.paymentDate)),
+                    ),
+                    DataCell(Text(formatter.format(payment.amount.toDouble()))),
+                  ],
+                );
+              }).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }
