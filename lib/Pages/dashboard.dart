@@ -16,22 +16,25 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-              child: ListTile(
-                title: const Text('Customer Policy Dashboard'),
-                subtitle: const Text(
-                  'Complete overview of policy information and related details ',
+        child: SizedBox(
+          width: 700,
+          child: Column(
+            children: [
+              Card(
+                child: ListTile(
+                  title: const Text('Customer Policy Dashboard'),
+                  subtitle: const Text(
+                    'Complete overview of policy information and related details ',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            CustomerInfo(),
-            PolicyInfo(),
-            AdvisorInfo(),
-            ClaimsHistory(),
-          ],
+              SizedBox(height: 20),
+              CustomerInfo(),
+              PolicyInfo(),
+              AdvisorInfo(),
+              ClaimsHistory(),
+            ],
+          ),
         ),
       ),
     );
