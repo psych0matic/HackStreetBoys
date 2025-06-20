@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:insurview360/Api/policy_api.dart';
-import 'package:insurview360/Models/policy.dart';
+import 'package:insurview360/Api/dependent_api.dart';
+import 'package:insurview360/Api/member_api.dart';
+import 'package:insurview360/Models/member.dart';
+import 'package:insurview360/Models/dependent.dart';
 
-class PolicyInfo extends StatefulWidget {
-  const PolicyInfo({super.key});
+class DependentInfo extends StatefulWidget {
+  const DependentInfo({super.key});
 
   @override
-  State<PolicyInfo> createState() => _PolicyInfoState();
+  State<DependentInfo> createState() => _DependentInfoState();
 }
 
-class _PolicyInfoState extends State<PolicyInfo> {
-  final conPolicyId = TextEditingController();
-  final conPolicyNumber = TextEditingController();
-  final conPolicyType = TextEditingController();
-  final conStartDate = TextEditingController();
-  final conEndDate = TextEditingController();
-  final conStatus = TextEditingController();
+class _DependentInfoState extends State<DependentInfo> {
+  final conDependentId = TextEditingController();
   final conMemberId = TextEditingController();
+  final conFirstName = TextEditingController();
+  final conLastName = TextEditingController();
+  final conRelation = TextEditingController();
   final conTestId = TextEditingController();
 
-  List<Policy> policies = [];
-  Policy? policy;
+  Dependent? dependent;
+
+  List<Dependent> dependents = [];
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -37,12 +39,12 @@ class _PolicyInfoState extends State<PolicyInfo> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.lightGreen,
+                        color: Colors.yellowAccent,
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     title: Text(
-                      "Policy Information",
+                      "Dependent Information",
                       style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -50,25 +52,25 @@ class _PolicyInfoState extends State<PolicyInfo> {
                     ),
                   ),
                 ),
+
                 FilledButton(
                   child: Text("Get one"),
                   onPressed: () async {
-                    policies = await PolicyApi().fetchPolicies();
+                    dependents = await DependentApi().fetchDependents();
 
-                    if (policies.isNotEmpty) {
+                    if (dependents.isNotEmpty) {
                       setState(() {
-                        Policy policy = (policies..shuffle()).first;
-                        conPolicyId.text = policy.policyId;
-                        conPolicyNumber.text = policy.policyNumber ?? '';
-                        conPolicyType.text = policy.policyType ?? '';
-                        conStartDate.text = policy.startDate!.toIso8601String();
-                        conEndDate.text = policy.endDate!.toIso8601String();
-                        conStatus.text = policy.status ?? "";
-                        conMemberId.text = policy.memberId ?? '';
+                        Dependent dependent = (dependents..shuffle()).first;
+                        conMemberId.text = dependent.memberId;
+                        conFirstName.text = dependent.firstName;
+                        conLastName.text = dependent.lastName;
+                        conRelation.text = dependent.relation;
+                        conDependentId.text = dependent.dependentId;
                       });
                     }
                   },
                 ),
+
                 SizedBox(width: 10),
                 SizedBox(
                   width: 80,
@@ -87,19 +89,20 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(width: 10),
                 // Get by ID Button
                 FilledButton(
-                  child: Text("Get by Policy ID"),
+                  child: Text("Get by Dependent ID"),
                   onPressed: () async {
-                    policy = await PolicyApi().fetchPolicy(conTestId.text);
+                    dependent = await DependentApi().fetchDependent(
+                      conTestId.text,
+                    );
 
-                    if (policy != null) {
+                    if (dependent != null) {
                       setState(() {
-                        Policy p = policy!;
-                        conPolicyId.text = p.policyId;
-                        conPolicyNumber.text = p.policyNumber ?? '';
-                        conPolicyType.text = p.policyType ?? '';
-                        conStartDate.text = p.startDate!.toIso8601String();
-                        conEndDate.text = p.endDate!.toIso8601String();
-                        conStatus.text = p.status ?? '';
+                        Dependent d = dependent!;
+                        conMemberId.text = d.memberId;
+                        conFirstName.text = d.firstName;
+                        conLastName.text = d.lastName;
+                        conRelation.text = d.relation;
+                        conDependentId.text = d.dependentId;
                       });
                     }
                   },
@@ -112,9 +115,24 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conPolicyId,
+                    controller: conMemberId,
                     decoration: InputDecoration(
-                      labelText: 'Policy ID',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                      labelText: 'Customer ID',
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conFirstName,
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -127,9 +145,9 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conPolicyNumber,
+                    controller: conLastName,
                     decoration: InputDecoration(
-                      labelText: 'Policy Number',
+                      labelText: 'Last Name',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -138,64 +156,18 @@ class _PolicyInfoState extends State<PolicyInfo> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
-                SizedBox(
-                  width: 250,
-                  child: TextField(
-                    controller: conPolicyType,
-                    decoration: InputDecoration(
-                      labelText: 'Policy Type',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          5.0,
-                        ), // Adjust the radius as needed
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
               ],
             ),
             SizedBox(height: 20),
-            Row(
-              children: [
-                SizedBox(
-                  width: 250,
-                  child: TextField(
-                    controller: conStartDate,
-                    decoration: InputDecoration(
-                      labelText: 'Start Date',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          5.0,
-                        ), // Adjust the radius as needed
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                SizedBox(
-                  width: 250,
-                  child: TextField(
-                    controller: conEndDate,
-                    decoration: InputDecoration(
-                      labelText: 'End Date',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          5.0,
-                        ), // Adjust the radius as needed
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
 
+            Row(
+              children: [
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conEndDate,
+                    controller: conDependentId,
                     decoration: InputDecoration(
-                      labelText: 'End Date',
+                      labelText: 'Dependent ID',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -204,17 +176,13 @@ class _PolicyInfoState extends State<PolicyInfo> {
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
+                SizedBox(width: 10),
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conStatus,
+                    controller: conRelation,
                     decoration: InputDecoration(
-                      labelText: 'Status',
+                      labelText: 'Relation',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,

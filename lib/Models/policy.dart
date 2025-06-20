@@ -5,19 +5,21 @@ enum PolicyStatus {
 
 class Policy {
   final String policyId;
-  final String policyNumber;
-  final String policyType;
-  final DateTime startDate;
-  final DateTime endDate;
-  final PolicyStatus status;
+  final String? policyNumber;
+  final String? policyType;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? status;
+  final String? memberId;
 
   Policy({
     required this.policyId,
-    required this.policyNumber,
-    required this.policyType,
-    required this.startDate,
-    required this.endDate,
-    required this.status,
+    this.policyNumber,
+    this.policyType,
+    this.startDate,
+    this.endDate,
+    this.status,
+    this.memberId
   });
 
   @override
@@ -31,9 +33,10 @@ class Policy {
       'policyId': policyId,
       'policyNumber': policyNumber,
       'policyType': policyType,
-      'startDate': startDate.toIso8601String(),
-      'endDate': endDate.toIso8601String(),
-      'status': status.toString().split('.').last, // Convert enum to string
+      'startDate': startDate!.toIso8601String(),
+      'endDate': endDate!.toIso8601String(),
+      'status': status, // Convert enum to string
+      'memberId': memberId,
     };
   }
 
@@ -45,9 +48,8 @@ class Policy {
       policyType: map['policyType'],
       startDate: DateTime.parse(map['startDate']),
       endDate: DateTime.parse(map['endDate']),
-      status: PolicyStatus.values.firstWhere(
-        (e) => e.toString().split('.').last == map['status'],
-      ),
+      status: map['status'],
+      memberId: map['memberId'],
     );
   }
 }

@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:insurview360/Models/claim.dart';
+import 'package:insurview360/configs.dart';
 
 class ClaimsApi {
   Future<Claim> fetchClaim(String claimId) async {
     final response = await http.get(
-      Uri.parse('https://api.example.com/claims/$claimId'),
+      Uri.parse('$apiUrl/api/claim/$claimId'),
     );
 
     if (response.statusCode == 200) {
@@ -18,7 +19,7 @@ class ClaimsApi {
 
   Future<List<Claim>> fetchClaims() async {
     final response = await http.get(
-      Uri.parse('https://api.example.com/claims'),
+      Uri.parse('$apiUrl/api/claim'),
     );
 
     if (response.statusCode == 200) {
@@ -31,7 +32,7 @@ class ClaimsApi {
 
   Future<void> createClaim(Claim claim) async {
     final response = await http.post(
-      Uri.parse('https://api.example.com/claims'),
+      Uri.parse('$apiUrl/api/claim'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -45,7 +46,7 @@ class ClaimsApi {
 
   Future<void> updateClaim(Claim claim) async {
     final response = await http.put(
-      Uri.parse('https://api.example.com/claims/${claim.claimId}'),
+      Uri.parse('$apiUrl/api/claim/${claim.claimId}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -59,7 +60,7 @@ class ClaimsApi {
 
   Future<void> deleteClaim(String claimId) async {
     final response = await http.delete(
-      Uri.parse('https://api.example.com/claims/$claimId'),
+      Uri.parse('$apiUrl/api/claim/$claimId'),
     );
 
     if (response.statusCode != 204) {

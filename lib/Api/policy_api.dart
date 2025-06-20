@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:insurview360/Models/policy.dart';
+import 'package:insurview360/configs.dart';
 
 class PolicyApi {
   Future<Policy> fetchPolicy(String policyId) async {
     final response = await http.get(
-      Uri.parse('https://api.example.com/policies/$policyId'),
+      Uri.parse('$apiUrl/api/policy/$policyId'),
     );
 
     if (response.statusCode == 200) {
@@ -18,7 +19,7 @@ class PolicyApi {
 
   Future<List<Policy>> fetchPolicies() async {
     final response = await http.get(
-      Uri.parse('https://api.example.com/policies'),
+      Uri.parse('$apiUrl/api/policy'),
     );
 
     if (response.statusCode == 200) {
@@ -31,7 +32,7 @@ class PolicyApi {
 
   Future<void> createPolicy(Policy policy) async {
     final response = await http.post(
-      Uri.parse('https://api.example.com/policies'),
+      Uri.parse('$apiUrl/api/policy'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -45,7 +46,7 @@ class PolicyApi {
 
   Future<void> updatePolicy(Policy policy) async {
     final response = await http.put(
-      Uri.parse('https://api.example.com/policies/${policy.policyId}'),
+      Uri.parse('$apiUrl/api/policy/${policy.policyId}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -59,7 +60,7 @@ class PolicyApi {
 
   Future<void> deletePolicy(String policyId) async {
     final response = await http.delete(
-      Uri.parse('https://api.example.com/policies/$policyId'),
+      Uri.parse('$apiUrl/api/policy/$policyId'),
     );
 
     if (response.statusCode != 204) {

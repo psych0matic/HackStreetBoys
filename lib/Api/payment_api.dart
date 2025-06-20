@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:insurview360/Models/payment.dart';
+import 'package:insurview360/configs.dart';
 
 class PaymentApi {
   Future<Payment> fetchPayment(String paymentId) async {
     final response = await http.get(
-      Uri.parse('https://api.example.com/payments/$paymentId'),
+      Uri.parse('$apiUrl/api/payment/$paymentId'),
     );
 
     if (response.statusCode == 200) {
@@ -17,9 +18,7 @@ class PaymentApi {
   }
 
   Future<List<Payment>> fetchPayments() async {
-    final response = await http.get(
-      Uri.parse('https://api.example.com/payments'),
-    );
+    final response = await http.get(Uri.parse('$apiUrl/api/payment'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = jsonDecode(response.body);
@@ -31,7 +30,7 @@ class PaymentApi {
 
   Future<void> createPayment(Payment payment) async {
     final response = await http.post(
-      Uri.parse('https://api.example.com/payments'),
+      Uri.parse('$apiUrl/api/payment'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -45,7 +44,7 @@ class PaymentApi {
 
   Future<void> updatePayment(Payment payment) async {
     final response = await http.put(
-      Uri.parse('https://api.example.com/payments/${payment.paymentId}'),
+      Uri.parse('$apiUrl/api/payment/${payment.paymentId}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -59,7 +58,7 @@ class PaymentApi {
 
   Future<void> deletePayment(String paymentId) async {
     final response = await http.delete(
-      Uri.parse('https://api.example.com/payments/$paymentId'),
+      Uri.parse('$apiUrl/api/payment/$paymentId'),
     );
 
     if (response.statusCode != 204) {

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:insurview360/Components/advisor_info.dart';
 import 'package:insurview360/Components/claims_history.dart';
-import 'package:insurview360/Components/customer_info.dart';
+import 'package:insurview360/Components/dependent_info.dart';
+import 'package:insurview360/Components/member_info.dart';
 import 'package:insurview360/Components/payment_history.dart';
 import 'package:insurview360/Components/policy_info.dart';
 
@@ -41,9 +42,9 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                CustomerInfo(),
+                MemberInfo(),
+                DependentInfo(),
                 PolicyInfo(),
-                AdvisorInfo(),
                 ClaimsHistory(),
                 PaymentHistory(),
               ],

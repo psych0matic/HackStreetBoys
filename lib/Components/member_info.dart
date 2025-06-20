@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:insurview360/Api/policy_api.dart';
-import 'package:insurview360/Models/policy.dart';
+import 'package:insurview360/Api/member_api.dart';
+import 'package:insurview360/Models/member.dart';
 
-class PolicyInfo extends StatefulWidget {
-  const PolicyInfo({super.key});
+class MemberInfo extends StatefulWidget {
+  const MemberInfo({super.key});
 
   @override
-  State<PolicyInfo> createState() => _PolicyInfoState();
+  State<MemberInfo> createState() => _MemberInfoState();
 }
 
-class _PolicyInfoState extends State<PolicyInfo> {
-  final conPolicyId = TextEditingController();
-  final conPolicyNumber = TextEditingController();
-  final conPolicyType = TextEditingController();
-  final conStartDate = TextEditingController();
-  final conEndDate = TextEditingController();
-  final conStatus = TextEditingController();
+class _MemberInfoState extends State<MemberInfo> {
   final conMemberId = TextEditingController();
+  final conFirstName = TextEditingController();
+  final conLastName = TextEditingController();
+  final conEmail = TextEditingController();
+  final conPhone = TextEditingController();
+  final conEmployer = TextEditingController();
+  final conStatus = TextEditingController();
   final conTestId = TextEditingController();
+  List<Member> members = [];
+  Member? member;
 
-  List<Policy> policies = [];
-  Policy? policy;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -37,12 +37,12 @@ class _PolicyInfoState extends State<PolicyInfo> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.lightGreen,
+                        color: Colors.blueAccent,
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     title: Text(
-                      "Policy Information",
+                      "Member Information",
                       style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -51,20 +51,20 @@ class _PolicyInfoState extends State<PolicyInfo> {
                   ),
                 ),
                 FilledButton(
-                  child: Text("Get one"),
+                  child: Text("Get random"),
                   onPressed: () async {
-                    policies = await PolicyApi().fetchPolicies();
+                    members = await MemberApi().fetchMembers();
 
-                    if (policies.isNotEmpty) {
+                    if (members.isNotEmpty) {
                       setState(() {
-                        Policy policy = (policies..shuffle()).first;
-                        conPolicyId.text = policy.policyId;
-                        conPolicyNumber.text = policy.policyNumber ?? '';
-                        conPolicyType.text = policy.policyType ?? '';
-                        conStartDate.text = policy.startDate!.toIso8601String();
-                        conEndDate.text = policy.endDate!.toIso8601String();
-                        conStatus.text = policy.status ?? "";
-                        conMemberId.text = policy.memberId ?? '';
+                        Member member = (members..shuffle()).first;
+                        conMemberId.text = member.memberId;
+                        conFirstName.text = member.firstName;
+                        conLastName.text = member.lastName;
+                        conEmail.text = member.email;
+                        conPhone.text = member.phoneNumber;
+                        conEmployer.text = member.employer ?? '';
+                        conStatus.text = member.employmentStatus ?? '';
                       });
                     }
                   },
@@ -87,19 +87,20 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(width: 10),
                 // Get by ID Button
                 FilledButton(
-                  child: Text("Get by Policy ID"),
+                  child: Text("Get by Member ID"),
                   onPressed: () async {
-                    policy = await PolicyApi().fetchPolicy(conTestId.text);
+                    member = await MemberApi().fetchMember(conTestId.text);
 
-                    if (policy != null) {
+                    if (member != null) {
                       setState(() {
-                        Policy p = policy!;
-                        conPolicyId.text = p.policyId;
-                        conPolicyNumber.text = p.policyNumber ?? '';
-                        conPolicyType.text = p.policyType ?? '';
-                        conStartDate.text = p.startDate!.toIso8601String();
-                        conEndDate.text = p.endDate!.toIso8601String();
-                        conStatus.text = p.status ?? '';
+                        Member mem = member!;
+                        conMemberId.text = mem.memberId;
+                        conFirstName.text = mem.firstName;
+                        conLastName.text = mem.lastName;
+                        conEmail.text = mem.email;
+                        conPhone.text = mem.phoneNumber;
+                        conEmployer.text = mem.employer ?? '';
+                        conStatus.text = mem.employmentStatus ?? '';
                       });
                     }
                   },
@@ -112,9 +113,24 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conPolicyId,
+                    controller: conMemberId,
                     decoration: InputDecoration(
-                      labelText: 'Policy ID',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ), // Adjust the radius as needed
+                      ),
+                      labelText: 'Member ID',
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    controller: conFirstName,
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -127,9 +143,9 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conPolicyNumber,
+                    controller: conLastName,
                     decoration: InputDecoration(
-                      labelText: 'Policy Number',
+                      labelText: 'Last Name',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -138,33 +154,18 @@ class _PolicyInfoState extends State<PolicyInfo> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
-                SizedBox(
-                  width: 250,
-                  child: TextField(
-                    controller: conPolicyType,
-                    decoration: InputDecoration(
-                      labelText: 'Policy Type',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          5.0,
-                        ), // Adjust the radius as needed
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
               ],
             ),
             SizedBox(height: 20),
+
             Row(
               children: [
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conStartDate,
+                    controller: conEmail,
                     decoration: InputDecoration(
-                      labelText: 'Start Date',
+                      labelText: 'Email',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -177,9 +178,9 @@ class _PolicyInfoState extends State<PolicyInfo> {
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conEndDate,
+                    controller: conPhone,
                     decoration: InputDecoration(
-                      labelText: 'End Date',
+                      labelText: 'Phone Number',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -189,13 +190,12 @@ class _PolicyInfoState extends State<PolicyInfo> {
                   ),
                 ),
                 SizedBox(width: 10),
-
                 SizedBox(
                   width: 250,
                   child: TextField(
-                    controller: conEndDate,
+                    controller: conEmployer,
                     decoration: InputDecoration(
-                      labelText: 'End Date',
+                      labelText: 'Employer',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -214,7 +214,7 @@ class _PolicyInfoState extends State<PolicyInfo> {
                   child: TextField(
                     controller: conStatus,
                     decoration: InputDecoration(
-                      labelText: 'Status',
+                      labelText: 'Employement Status',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -223,6 +223,7 @@ class _PolicyInfoState extends State<PolicyInfo> {
                     ),
                   ),
                 ),
+                SizedBox(width: 10),
               ],
             ),
           ],

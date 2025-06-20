@@ -6,8 +6,10 @@ class Claim {
   String claimId;
   String policyId;
   DateTime claimDate;
-  ClaimStatus status;
+  String status;
   Decimal amount;
+  String reason;
+  String memberId;
 
   Claim({
     required this.claimId,
@@ -15,6 +17,8 @@ class Claim {
     required this.claimDate,
     required this.status,
     required this.amount,
+    required this.reason,
+    required this.memberId,
   });
 
   // Method to convert a Claim object to a Map
@@ -23,8 +27,10 @@ class Claim {
       'claimId': claimId,
       'policyId': policyId,
       'claimDate': claimDate.toIso8601String(),
-      'status': status.toString().split('.').last,
+      'status': status,
       'amount': amount.toString(),
+      'reason': reason,
+      'memberId': memberId,
     };
   }
 
@@ -36,11 +42,10 @@ class Claim {
       claimDate: DateTime.parse(
         map['claimDate'] ?? DateTime.now().toIso8601String(),
       ),
-      status: ClaimStatus.values.firstWhere(
-        (e) => e.toString().split('.').last == map['status'],
-        orElse: () => ClaimStatus.Pending,
-      ),
+      status: map['status'] ?? 'Pending',
       amount: Decimal.parse(map['amount'] ?? '0.0'),
+      reason: map['reason'] ?? '',
+      memberId: map['memberId'] ?? '',
     );
   }
 }
